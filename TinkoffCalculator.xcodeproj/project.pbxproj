@@ -99,13 +99,13 @@
 		5A51DCC42B665B2F00992BE3 /* TinkoffCalculator */ = {
 			isa = PBXGroup;
 			children = (
-				5A51DCC52B665B2F00992BE3 /* AppDelegate.swift */,
-				5A51DCC72B665B2F00992BE3 /* SceneDelegate.swift */,
-				5A51DCC92B665B2F00992BE3 /* ViewController.swift */,
 				5A51DCCB2B665B2F00992BE3 /* Main.storyboard */,
 				5A51DCCE2B665B3000992BE3 /* Assets.xcassets */,
 				5A51DCD02B665B3000992BE3 /* LaunchScreen.storyboard */,
+				5A51DCC52B665B2F00992BE3 /* AppDelegate.swift */,
 				5A51DCD32B665B3000992BE3 /* Info.plist */,
+				5A51DCC72B665B2F00992BE3 /* SceneDelegate.swift */,
+				5A51DCC92B665B2F00992BE3 /* ViewController.swift */,
 			);
 			path = TinkoffCalculator;
 			sourceTree = "<group>";
