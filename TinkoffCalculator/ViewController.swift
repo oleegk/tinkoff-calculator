@@ -62,6 +62,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         resetLabelText()
     }
+    
 
     
     @IBAction func buttonPressed(_ sender: UIButton)  {
@@ -90,9 +91,7 @@ class ViewController: UIViewController {
         }
     }
     
-    
-    
-    
+ 
     
     @IBAction func operationButtonPressed(_ sender: UIButton) {
         guard let buttonText = sender.titleLabel?.text,
@@ -108,6 +107,20 @@ class ViewController: UIViewController {
         
         resetLabelText()
     }
+    
+    
+    
+    
+    @IBAction func showCalculationsList(_ sender: Any) {
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let calculationListVC = sb.instantiateViewController(identifier: "CalculationsListViewController")
+        
+        if let vc = calculationListVC as? CalculationsListViewController {
+            vc.result = label.text
+        }
+        navigationController?.pushViewController(calculationListVC, animated: true)
+    }
+    
     
     func resetLabelText() {
         label.text = "0"
