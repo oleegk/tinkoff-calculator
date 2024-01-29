@@ -237,7 +237,7 @@
                                     <imageReference key="image" image="clock" catalog="system" symbolScale="large"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <action selector="showCalculationsList:" destination="BYZ-38-t0r" eventType="touchUpInside" id="B8E-1h-w8N"/>
+                                    <segue destination="au7-zw-dBd" kind="show" identifier="CALCULATIONS_LIST" id="IgK-wq-guj"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -334,7 +334,7 @@
             </objects>
             <point key="canvasLocation" x="1026.7175572519084" y="3.5211267605633805"/>
         </scene>
-        <!--Calculations List View Controller-->
+        <!--Прошлые вычисления-->
         <scene sceneID="nQf-Xs-b4u">
             <objects>
                 <viewController storyboardIdentifier="CalculationsListViewController" id="au7-zw-dBd" customClass="CalculationsListViewController" customModule="TinkoffCalculator" customModuleProvider="target" sceneMemberID="viewController">
@@ -364,7 +364,7 @@
                             <constraint firstItem="cb3-XA-NNm" firstAttribute="centerX" secondItem="P4I-3m-ekt" secondAttribute="centerX" id="if4-Ya-eTt"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="bke-he-e5l"/>
+                    <navigationItem key="navigationItem" title="Прошлые вычисления" id="bke-he-e5l"/>
                     <connections>
                         <outlet property="calculationLabel" destination="cb3-XA-NNm" id="BvW-nA-KtY"/>
                     </connections>

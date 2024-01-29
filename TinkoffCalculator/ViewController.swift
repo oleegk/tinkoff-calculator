@@ -63,6 +63,11 @@ class ViewController: UIViewController {
         resetLabelText()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
 
     
     @IBAction func buttonPressed(_ sender: UIButton)  {
@@ -108,8 +113,11 @@ class ViewController: UIViewController {
         resetLabelText()
     }
     
-    
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard segue.identifier == "CALCULATIONS_LIST",
+              let calculationListVC = segue.destination as? CalculationsListViewController else { return }
+        calculationListVC.result = label.text
+    }
     
     @IBAction func showCalculationsList(_ sender: Any) {
         let sb = UIStoryboard(name: "Main", bundle: nil)
@@ -118,7 +126,8 @@ class ViewController: UIViewController {
         if let vc = calculationListVC as? CalculationsListViewController {
             vc.result = label.text
         }
-        navigationController?.pushViewController(calculationListVC, animated: true)
+        show(calculationListVC, sender: self)
+        
     }
     
     
