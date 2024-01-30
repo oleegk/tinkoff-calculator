@@ -237,7 +237,7 @@
                                     <imageReference key="image" image="clock" catalog="system" symbolScale="large"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <segue destination="au7-zw-dBd" kind="show" identifier="CALCULATIONS_LIST" id="IgK-wq-guj"/>
+                                    <action selector="showCalculationsList:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MH1-t5-IGV"/>
                                 </connections>
                             </button>
                         </subviews>

@@ -113,11 +113,6 @@ class ViewController: UIViewController {
         resetLabelText()
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard segue.identifier == "CALCULATIONS_LIST",
-              let calculationListVC = segue.destination as? CalculationsListViewController else { return }
-        calculationListVC.result = label.text
-    }
     
     @IBAction func showCalculationsList(_ sender: Any) {
         let sb = UIStoryboard(name: "Main", bundle: nil)
@@ -126,8 +121,7 @@ class ViewController: UIViewController {
         if let vc = calculationListVC as? CalculationsListViewController {
             vc.result = label.text
         }
-        show(calculationListVC, sender: self)
-        
+        navigationController?.pushViewController(calculationListVC, animated: true)
     }
     
     
