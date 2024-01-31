@@ -40,6 +40,7 @@ enum Operation: String {
 enum CalculationHistoryItem {
     case number(Double)
     case operation(Operation)
+    case date(String)
 }
 
 class ViewController: UIViewController {
@@ -47,6 +48,12 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var historyButton: UIButton!
+    
+    var calculationHistory: [CalculationHistoryItem] = []
+    var calculations: [Calculation] = []
+    
+    var calculationHistoryStorage = CalculationHistoryStorage()
+    
     
     lazy var numberFormatter: NumberFormatter = {
         let numberFormatter = NumberFormatter()
@@ -58,13 +65,11 @@ class ViewController: UIViewController {
         return numberFormatter
     }()
     
-    var calculationHistory: [CalculationHistoryItem] = []
-    var calculations: [(expression: [CalculationHistoryItem], result: Double)] = []
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         resetLabelText()
+        calculations = calculationHistoryStorage.loadHistory()
         historyButton.accessibilityIdentifier = "toHistoryPageButton"
     }
     
@@ -150,11 +155,21 @@ class ViewController: UIViewController {
             let result = try calculate()
             
             label.text = numberFormatter.string(from: NSNumber(value: result))
-            calculations.append((calculationHistory, result))
+            let newCalculation = Calculation(expression: calculationHistory, result: result, date: dateToStringForHeader())
+            
+            calculations.append(newCalculation)
+            calculationHistoryStorage.setHistory(calculation: calculations)
         } catch {
             label.text = "Ошибка"
         }
         calculationHistory.removeAll()
+    }
+    
+    func dateToStringForHeader(date: Date = Date()) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm"
+        let dateString = dateFormatter.string(from: date)
+        return dateString
     }
     
     func calculate() throws -> Double {
