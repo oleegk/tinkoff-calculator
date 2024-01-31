@@ -65,7 +65,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         resetLabelText()
-        historyButton.accessibilityIdentifier = "historyButton"
+        historyButton.accessibilityIdentifier = "toHistoryPageButton"
     }
     
     override func viewWillAppear(_ animated: Bool) {
