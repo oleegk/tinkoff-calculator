@@ -7,6 +7,13 @@
 
 import UIKit
 
+protocol LongPressViewProtocol {
+    var shared: UIView { get }
+    
+    func startAnimation()
+    func stopAnimation()
+}
+
 enum CalculationError: Error {
     case devidedByZero
     case zeroAndFractionalPart
@@ -37,13 +44,19 @@ enum Operation: String {
     }
 }
 
+
 enum CalculationHistoryItem {
     case number(Double)
     case operation(Operation)
     case date(String)
 }
 
+
 class ViewController: UIViewController {
+    
+    var shared: UIView = UIView()
+    var animator: UIViewPropertyAnimator?
+
 
     
     @IBOutlet weak var label: UILabel!
@@ -53,6 +66,17 @@ class ViewController: UIViewController {
     var calculations: [Calculation] = []
     
     var calculationHistoryStorage = CalculationHistoryStorage()
+    
+    private let alertView: AlertView = {
+        let screenBounds = UIScreen.main.bounds
+        let alertHeight: CGFloat = 100
+        let alertWidth: CGFloat = screenBounds.width - 40
+        let x: CGFloat = screenBounds.width / 2 - alertWidth / 2
+        let y: CGFloat = screenBounds.height / 2 - alertHeight / 2
+        let alertFrame = CGRect(x: x, y: y, width: alertWidth, height: alertHeight)
+        let alertView = AlertView(frame: alertFrame)
+        return alertView
+    }()
     
     
     lazy var numberFormatter: NumberFormatter = {
@@ -71,7 +95,56 @@ class ViewController: UIViewController {
         resetLabelText()
         calculations = calculationHistoryStorage.loadHistory()
         historyButton.accessibilityIdentifier = "toHistoryPageButton"
+        
+        view.addSubview(alertView)
+        alertView.alpha = 0
+        alertView.alertText = "Вы нашли пасхалку!"
+        
+        
+        // Создаем жест нажатия на экран
+        let tapGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        view.addGestureRecognizer(tapGesture)
+
     }
+    
+    
+    
+    @objc func handleTap(_ sender: UILongPressGestureRecognizer) {
+        if sender.state == .began {
+            startAnimation()
+        } else if sender.state == .ended {
+            stopAnimation()
+        }
+    }
+
+    func startAnimation() {
+        // Создаем и добавляем на экран UIView shared
+        shared = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        shared.center = view.center
+        shared.backgroundColor = .red
+        view.addSubview(shared)
+
+        // Создаем аниматор и запускаем анимацию
+        animator = UIViewPropertyAnimator(duration: 2.0, curve: .easeInOut) {
+            self.shared.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
+            
+        }
+        animator?.startAnimation()
+    }
+
+    func stopAnimation() {
+        // Останавливаем аниматор и удаляем UIView shared
+        animator?.stopAnimation(true)
+        animator = nil
+        shared.removeFromSuperview()
+        
+    }
+
+    
+    
+    
+    
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -93,12 +166,18 @@ class ViewController: UIViewController {
                 throw CalculationError.labelError
             }
             
-            
             if label.text == "0" {
                 label.text = buttonText
             } else {
                 label.text?.append(buttonText)
             }
+            
+            if label.text == "3,141592" {
+                animateAlert()
+            }
+            sender.animateTap()
+                
+                
         } catch CalculationError.zeroAndFractionalPart {
             label.text = "0,"
         } catch {
@@ -161,8 +240,27 @@ class ViewController: UIViewController {
             calculationHistoryStorage.setHistory(calculation: calculations)
         } catch {
             label.text = "Ошибка"
+            label.shake()
         }
         calculationHistory.removeAll()
+    }
+    
+    func calculatePi(digits: String) -> String {
+        let precision = pow(4, Double(10))
+        var pi = 0.0
+        var sign = 1.0
+        for i in 0..<Int(precision) {
+            let n = Double(i * 2 + 1)
+            pi += sign / n
+            sign *= -1
+        }
+        return String(format: "%.\(digits)f", pi * 4)
+    }
+    
+    @IBAction func piCalculation(_ sender: Any) {
+        DispatchQueue.main.async {
+            self.label.text = self.calculatePi(digits: self.label.text ?? "2")
+        }
     }
     
     func dateToStringForHeader(date: Date = Date()) -> String {
@@ -187,5 +285,61 @@ class ViewController: UIViewController {
         
         return currentResult
     }
+    
+    func animateAlert() {
+        if !view.contains(alertView) {
+            alertView.alpha = 0
+            alertView.center = view.center
+            view.addSubview(alertView)
+        }
+        
+        UIView.animateKeyframes(withDuration: 2.0, delay: 0.5) {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5) {
+                self.alertView.alpha = 1
+            }
+            
+            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5) {
+                var newCenter = self.label.center
+                newCenter.y -= self.alertView.bounds.height
+                self.alertView.center = newCenter
+            }
+        }
+    }
 }
+
+extension UILabel {
+    
+    func shake() {
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.duration = 0.05
+        animation.repeatCount = 5
+        animation.autoreverses = true
+        animation.fromValue = NSValue(cgPoint: CGPoint(x: center.x - 5, y: center.y))
+        animation.toValue = NSValue(cgPoint: CGPoint(x: center.x + 5, y: center.y))
+        
+        layer.add(animation, forKey: "position")
+    }
+}
+
+extension UIButton {
+    
+    func animateTap() {
+        let scaleAnimation = CAKeyframeAnimation(keyPath: "transform.scale")
+        scaleAnimation.values = [1, 0.9, 1]
+        scaleAnimation.keyTimes = [0, 0.2, 1]
+        
+        let opacityAnimation = CAKeyframeAnimation(keyPath: "opacity")
+        opacityAnimation.values = [0.4, 0.8, 1]
+        opacityAnimation.keyTimes = [0, 0.2, 1]
+        
+        let animationGroup = CAAnimationGroup()
+        animationGroup.duration = 1.5
+        animationGroup.animations = [scaleAnimation, opacityAnimation]
+        
+        layer.add(animationGroup, forKey: "groupAnimation")
+    }
+}
+
+extension ViewController: LongPressViewProtocol {}
+
 

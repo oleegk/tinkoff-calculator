@@ -20,6 +20,7 @@
 		5A955D482B69448300996C62 /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A955D472B69448300996C62 /* HistoryTableViewCell.swift */; };
 		5A955D4A2B6945C300996C62 /* HistoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A955D492B6945C300996C62 /* HistoryTableViewCell.xib */; };
 		5A955D4D2B6A547000996C62 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A955D4C2B6A547000996C62 /* Storage.swift */; };
+		5A955D4F2B6AA11A00996C62 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A955D4E2B6AA11A00996C62 /* AlertView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		5A955D472B69448300996C62 /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
 		5A955D492B6945C300996C62 /* HistoryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HistoryTableViewCell.xib; sourceTree = "<group>"; };
 		5A955D4C2B6A547000996C62 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		5A955D4E2B6AA11A00996C62 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 				5A51DCC52B665B2F00992BE3 /* AppDelegate.swift */,
 				5A51DCC72B665B2F00992BE3 /* SceneDelegate.swift */,
 				5A51DCC92B665B2F00992BE3 /* ViewController.swift */,
+				5A955D4E2B6AA11A00996C62 /* AlertView.swift */,
 				5A51DCCB2B665B2F00992BE3 /* Main.storyboard */,
 				5A51DCCE2B665B3000992BE3 /* Assets.xcassets */,
 				5A51DCD02B665B3000992BE3 /* LaunchScreen.storyboard */,
@@ -289,6 +292,7 @@
 			files = (
 				5A6D8F8E2B67C57500FA0B22 /* CalculationsListViewController.swift in Sources */,
 				5A51DCCA2B665B2F00992BE3 /* ViewController.swift in Sources */,
+				5A955D4F2B6AA11A00996C62 /* AlertView.swift in Sources */,
 				5A51DCC62B665B2F00992BE3 /* AppDelegate.swift in Sources */,
 				5A51DCC82B665B2F00992BE3 /* SceneDelegate.swift in Sources */,
 				5A955D482B69448300996C62 /* HistoryTableViewCell.swift in Sources */,
